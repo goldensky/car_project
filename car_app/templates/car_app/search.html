@@ -1,0 +1,267 @@
+{% extends 'car_app/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+
+
+
+<!-- <script src="/static/js/scripts.js"></script> -->
+<script src="{% static 'js/scripts.js' %}"></script>
+
+
+
+
+	    
+    
+    <form id="truck-search-form" method="get">
+    	<label class="field truck-choice" for="truck-choice">Модели:</label>
+    
+    
+    	   
+    		<select  id="truck_model_select" class="custom-select" name="truck_model_select">
+    		<!-- <option  selected="selected">Выбрать </option>  -->
+    			<option value="all" > Все </option> 
+    			   		
+    			{% for item  in all_truck_models %} 
+    		 	<option value="{{item.id}}">{{item.model_name}}</option> 
+    		 	{% endfor  %}
+    		 	
+    		</select>    		 
+    		<button id="show_model" type="submit" action="" name="" button_value= item_id_value >Применить</button>
+
+    
+        
+  </form>
+ 
+
+
+
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+
+    
+  <h1>Машины парка: </h1>
+  <!--  TABLE    -->
+
+			
+  {% if requested_numbers %}
+	
+
+  <table class="table table-hover">
+    <thead>
+			
+      <th>Бортовой номер</th>
+      <th>Модель</th>
+      <th>Макс. грузоподъемность,т</th>
+      <th>Текущий вес,т</th>
+      <th>Перегруз,%</th>
+      
+    </thead>
+    <tbody id="truck-table">
+		
+	
+      {% for truck in requested_numbers  %}
+        <tr>
+		
+          <td><a href="{% url 'car_app:number_detail' pk=truck.pk %}">{{truck.bort_number}} </a></td>
+          <td>{{truck.model_name}}</td>
+          <td>{{truck.model_name.max_capacity}}</td>
+          <td>{{truck.current_weight}}</td>
+          <td>{{truck.overload}} </td>
+          
+	
+        </tr>
+        {% endfor  %}	
+        
+        
+	</tbody>	
+    </table>
+    
+  
+
+    {% else %}
+      <p>No entries</p>
+
+
+    {% endif  %}
+    
+    
+   
+    
+    
+    {% for item in over %}   
+    
+    
+    <h1>model_name_id: {{ item.model_name_id }} --  {{ item.model_name_id.model_name }}  </h1>
+    <p>bort_number: {{ item.bort_number }}  </p>
+    <p>current_weight:   {{ item.current_weight }} </p>
+    {{ item }}
+    
+    </br>
+    </br>
+    
+    {% endfor %}
+    
+    
+    
+    
+     <script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+   
+    
+    
+    
+	
+    {{all_truck_models}}
+    
+    
+    </br>
+    </br>
+    
+    {{all_models }}
+    
+    
+    {% for model in all_models %}
+    
+    <p>{{model}}</p>
+    
+    {% endfor %}
+    
+    
+    
+    {% for item in over %} 
+    {{ item }}
+    <p>{{item.model_name}}</p>
+    </br>
+    {% endfor %}
+    
+    
+    </br>
+    <script>
+      $document.ready(function(){
+      
+      $("#btnRemove").click(function(){
+        $("li").remove();
+      });
+      
+    });
+
+    </script>
+    
+    
+    
+    
+    <script>
+	  $(document).ready(function(){
+      $("#btnRemove").click(function(){
+        $("li").hide();
+      });
+	  });
+	</script>
+    
+    
+    
+    <h2>Learn jQuery</h2>
+    
+    <ul>
+    <li>first</li>
+    <li>second</li>
+    <li>last</li>
+    
+    
+    </ul>
+    <button id="btnRemove">Remove</button>
+    
+    
+    </br>
+    </br>
+    </br>
+    
+
+    <script>
+	  $(document).ready(function(){
+      $("p").click(function(){
+        $(this).hide();
+      });
+	  });
+	</script>
+	
+	<p>If you click on me, I will disappear.</p>
+    <p>Click me away!</p>
+	<p>Click me too!</p>
+	
+	
+	
+	<script>
+	
+	$(document).ready(function(){
+	  $(".guess_box").click(function(){
+	    var discount=Math.floor((Math.random()*5)+ 5);
+	    print('discount = ', discount);
+	    var discount_msg = "<p>Your discount is " + discount + "%. </p>";
+	    alert(discount);
+	  });
+	
+	});	
+	</script>
+    
+    <div id="main">
+    
+      <div class="guess_box">Guess</div>
+    
+    </div>
+    
+
+
+ </br>
+    <script>
+      $document.ready(function(){
+      
+      $("#btnRemove").click(function(){
+        $("li").remove();
+      });
+      
+    });
+
+    </script>
+    
+    
+    
+    
+    <script>
+	  $(document).ready(function(){
+      $("#btnRemove").click(function(){
+        $("li").hide();
+      });
+	  });
+	</script>
+    
+
+
+
+
+
+
+
+
+
+
+{% endblock  %}
+

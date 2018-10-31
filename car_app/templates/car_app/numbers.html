@@ -1,0 +1,36 @@
+{% extends 'car_app/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+  <h2>Cписок машин в парке</h2>
+  
+    {% for number in numbers %}
+      <h4>Бортовой номер машины: <a href="{% url 'car_app:number_detail' pk=number.pk %}">{{number.bort_number}}</a></h4>		
+      <p>Текущая загруженность: {{number.current_weight}}</p>
+      <p>Перегруз: {{number.overload}}</p>
+      </br>
+    {% endfor  %}
+		
+		
+      <div class="pagination">
+        <span class="step-links">
+          {% if numbers.has_previous %}
+            <a href="?page={{ numbers.previous_page_number }}">prev</a>
+          {% endif %}
+      
+      
+      
+        <span class="current">
+          Page {{ numbers.number }} of {{ numbers.paginator.num_pages }}.
+        </span>
+      
+        {% if numbers.has_next %}
+          <a href="?page={{ numbers.next_page_number }}">next</a>
+        {% endif %}
+        
+        </span>
+    
+      </div>
+
+{% endblock  %}
