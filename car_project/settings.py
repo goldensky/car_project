@@ -26,7 +26,7 @@ SECRET_KEY = '^=oar!!ml5=dcv@)qi1in$og=5dpcsw7is2zq*lwul_a3s^h#)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['vim.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
