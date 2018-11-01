@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <h1>New number</h1>
+    <h1>Новая машина</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ number_form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>

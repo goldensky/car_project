@@ -10,16 +10,10 @@ from car_app.forms import TruckModelForm, TruckNumberForm, PostForm
 from django.utils import timezone
 from django.db.models import Max, Avg, FloatField, Count, F 
 
-from django.views.generic.base import View
-
-
-    
-    
-#output_field=FloatField()
 
 def update_overload():
     overloads = TruckNumber.objects.select_related('model_name').annotate(
-	    overload_100_1 = (F('current_weight') - F('model_name_id__max_capacity')   ) * 100 / F('model_name_id__max_capacity'), 
+	    overload_100_1 = (F('current_weight') - F('model_name_id__max_capacity')) * 100 / F('model_name_id__max_capacity'), 
 	    ).values()
     print('overloads = ')
     for item in overloads:
@@ -37,62 +31,33 @@ def update_overload():
         if truck_instance.overload == 0:
             truck_instance.overload = item['overload_100_1']
             truck_instance.save()
-        
-        
-        #print()
-	
 	
     return overloads
 
 
 
-
-
-
-
-
-
-
 def index(request, truck_model_select="all"):
-	print('======', request.GET)
+	print('request.GET =', request.GET)
 	
-	print('===================      ', len(request.GET))
-	
-	'''
-	if request.GET['truck_model_select'] == '1':
-		requested_numbers = TruckNumber.objects.filter(model_name=1)
-		print('r = ', requested_numbers)
-	'''
+	print('len(request.GET) =  ', len(request.GET))
 	
 	
 	try:
-		
-
 		all_truck_models = TruckModel.objects.all()
 		all_truck_numbers = TruckNumber.objects.all()
 		requested_numbers = TruckNumber.objects.all()
 	except (KeyError, MultiValueDictKeyError) as key_error:
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%')
-	
-	
-	
+		print('key_error = ', key_error)
 
 		
 	if len(request.GET) == 0:
-	    print('NOT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-	    print()
-	    print()
-	    print()
-	    print('NOT  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-	    
+	    print('len(request.GET) == 0')	    
 	    requested_numbers = TruckNumber.objects.all()
-	    
-	   
-	    
+	       
 	elif request.GET['truck_model_select'] == 'all':
 	    print('ALL')
-	    requested_numbers = TruckNumber.objects.all()
-	    
+	    requested_numbers = TruckNumber.objects.all()	    
 
 	else:
 	
@@ -110,38 +75,23 @@ def index(request, truck_model_select="all"):
 		except (MultiValueDictKeyError, django.utils.datastructures.MultiValueDictKeyError) as multy_error:
 			print('\n\n\n\n\n')
 			requested_numbers = TruckNumber.objects.all()
-		
-			
-			
-			
+
 			print('#######################  requested_numbers = ', requested_numbers)
 	
 	print('requested_numbers = ', requested_numbers)
-	print()
-	print()
-			
-
 
 	current_moment_overloads = update_overload()
 	
 	amount_numbers = len(requested_numbers)
 		
 	context = {'all_truck_models': all_truck_models,
-		#'all_truck_numbers': all_truck_numbers, 
 		'requested_numbers': requested_numbers, 
 		'amount_numbers': amount_numbers,
 		}
 	
-	
-	
-	print('LEN + + + ', len(requested_numbers))
-	
-	
+	print('LEN = ', len(requested_numbers))
+
 	return render(request, 'car_app/index.html', context)
-
-
-
-
 
 
 def search(request):
@@ -168,36 +118,14 @@ def search(request):
 			requested_numbers = TruckNumber.objects.filter(model_name=model_id)
 	
 	print('requested_numbers = ', requested_numbers)
-	print()
-	print()
 
 	current_moment_overloads = update_overload()
 		
 	context = {'all_truck_models': all_truck_models,
 		'all_truck_numbers': all_truck_numbers, 
 		'requested_numbers': requested_numbers, 
-		#'numbers_count': numbers_count, 
-		#'models_count': models_count, 
-		#'over': over,
-		#'overload': overload,
-		#'all_models': all_models,
 		}
-
-	
-
-
 	return render(request, 'car_app/search.html', context)
-
-
-
-
-
-
-
-
-
-
-
     
 
 
@@ -205,7 +133,7 @@ def search(request):
 
 def models(request):
 	all_models = TruckModel.objects.all()
-	paginator = Paginator(all_models, 2) 
+	paginator = Paginator(all_models, 5) 
 	page = request.GET.get('page')
 	try:
 	    models = paginator.page(page)
@@ -230,8 +158,6 @@ def model_detail(request, pk):
     return render(request, 'car_app/model_detail.html', context)
 
 
-
-
 def model_new(request):
     if request.method == "POST":
         model_form = TruckModelForm(request.POST)
@@ -243,8 +169,7 @@ def model_new(request):
         model_form = TruckModelForm()
     return render(request, 'car_app/add_model.html', {'model_form': model_form})
     
-    
-    
+       
 
 def model_edit(request, pk):
     model = get_object_or_404(TruckModel, pk=pk)
@@ -261,11 +186,6 @@ def model_edit(request, pk):
     return render(request, 'car_app/add_model.html', {'model_form': model_form})    
     
     
-
-
-
-
-
 # Numbers
 
 def numbers(request):
@@ -344,6 +264,7 @@ def number_edit(request, pk):
 
 # Posts
 def posts(request):
+	print('Invoke posts')
 	all_posts = Post.objects.order_by('-published_date')
 	paginator = Paginator(all_posts, 2) 
 	page = request.GET.get('page')
@@ -361,43 +282,41 @@ def posts(request):
 
 	
 def post_detail(request, pk):
-	print('+++++++++++++++++++++++++++')
+	print('Invoke post_detail ', pk)
 	print('Receive pk = ', pk)
 	post = get_object_or_404(Post, pk=pk)
 	return render(request, 'car_app/post_detail.html', {'post': post})  
-
-	
 	
 
 def post_new(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('car_app:post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'car_app/post_edit.html', {'form': form})
-
+	print('Invoke post_new')
+	if request.method == "POST":
+		form = PostForm(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.author = request.user
+			post.published_date = timezone.now()
+			post.save()
+			return redirect('car_app:post_detail', pk=post.pk)
+	else:
+		form = PostForm()
+	return render(request, 'car_app/post_edit.html', {'form': form})
 
 
 def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('car_app:post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    
-    return render(request, 'car_app/post_edit.html', {'form': form})    
+	print('Invoke post_edit ', pk)
+	post = get_object_or_404(Post, pk=pk)
+	if request.method == "POST":
+		form = PostForm(request.POST, instance=post)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.author = request.user
+			post.published_date = timezone.now()
+			post.save()
+			return redirect('car_app:post_detail', pk=post.pk)
+	else:
+		form = PostForm(instance=post)
+	return render(request, 'car_app/post_edit.html', {'form': form})    
 
 
 

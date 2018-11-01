@@ -6,9 +6,9 @@
   <h2>Cписок машин в парке</h2>
   
     {% for number in numbers %}
-      <h4>Бортовой номер машины: <a href="{% url 'car_app:number_detail' pk=number.pk %}">{{number.bort_number}}</a></h4>		
-      <p>Текущая загруженность: {{number.current_weight}}</p>
-      <p>Перегруз: {{number.overload}}</p>
+      <h3>Бортовой номер машины: <a href="{% url 'car_app:number_detail' pk=number.pk %}">{{number.bort_number}}</a></h3>		
+      <p>Текущая загруженность: {{number.current_weight}} тонн</p>
+      <p>Перегруз: {{number.overload}} %</p>
       </br>
     {% endfor  %}
 		

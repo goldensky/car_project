@@ -5,13 +5,14 @@
 {% block content %}
 
 
-	<h2>Все модели </h2>
+  <h2>Все модели парка</h2>
+  </br>
 	
 
 
-		{% for model in models %}
+  {% for model in models %}
 
-		<h4>Название модели: <a href="{% url 'car_app:model_detail' pk=model.pk  %}">{{model.model_name}}</a></h4>
+  <h2><a href="{% url 'car_app:model_detail' pk=model.pk  %}">{{model.model_name}}</a></h2>
 		
 		
 		
@@ -19,15 +20,15 @@
 		
 		
 		
-		<h4>Максимальная грузоподъемность: {{model.max_capacity}} тонн</h4> 
-		<h4>Описание модели: </h4> 
-		<p>{{model.model_description}}</p>
-		</br>
+  <h4>Максимальная грузоподъемность: {{model.max_capacity}} тонн</h4> 
+  <h4>Описание модели: </h4> 
+  <p>{{model.model_description}}</p>
+  </br>
 
 
-		{% endfor  %}
+  {% endfor  %}
 
-<div class="pagination">
+  <div class="pagination">
     <span class="step-links">
       {% if models.has_previous %}
         <a href="?page={{ models.previous_page_number }}">prev</a>
@@ -45,6 +46,9 @@
     </span>
     
   </div>
+  
+  
+
 
 
 

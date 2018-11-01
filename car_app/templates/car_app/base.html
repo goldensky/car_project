@@ -39,7 +39,7 @@
     
   <body>
     <!--block pageWrapper - begin-->
-    <div id = "pageWrapper"  style="overflow: visible;">
+    <div class = "pageWrapper"  style="overflow: visible;">
       <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
           <ul class="nav navbar-nav">
@@ -51,21 +51,12 @@
             <li><a class="navbar-link" href="{% url 'car_app:model_new' %}">New model</a></li>
             <li><a class="navbar-link" href="{% url 'car_app:number_new' %}">New number</a></li>
             <li><a class="navbar-link" href="{% url 'car_app:post_new' %}">New post</a></li>
-            
-            
-          				
+            			
           				
             <li><a class="navbar-link" href="{% url 'car_app:models' %}">Models</a></li>
             <li><a class="navbar-link" href="{% url 'car_app:numbers' %}">Numbers</a></li>
             <li><a class="navbar-link" href="{% url 'car_app:posts' %}">Posts</a></li>
-            
-            <li><a class="navbar-link" href="{% url 'car_app:search' %}">Search</a></li>
-          				
-          				
-          				           
-                   
-
-          
+      
           </ul>
         </div>
       </nav> 
@@ -77,7 +68,7 @@
     
     
    
-    <div id = "pageWrapper"  style="overflow: visible;">
+    <div class = "pageWrapper"  style="overflow: visible;">
     
     	<div class ="container">
         	{% block content %}                               
